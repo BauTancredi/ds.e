@@ -17,7 +17,8 @@
   "scripts": {
     "lint": "stylelint './**/*.scss'",
     "lint:fix": "npm run lint --fix",
-    "build": "node src/scripts/build.js"
+    "build": "node src/scripts/build.js",
+    "dev": "nodemon --watch src --exec yarn build -e scss"
   },
   "husky": {
     "hooks": {
@@ -26,5 +27,8 @@
   },
   "lint-staged": {
     "*.scss": "yarn lint:fix"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
