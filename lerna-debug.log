@@ -1,0 +1,21 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': 'node_modules\\lerna\\cli.js',
+0 silly argv   script: 'build'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath D:\repositories\udemy\ds.e
+3 error JSONError: Unexpected token "/" (0x2F) in JSON at position 346 while parsing near "...\": \"^4.5.4\"\r\n  }\r\n  // \"scripts\": {\r\n  /..." in playgrounds\react\package.json
+3 error
+3 error [0m [90m 14 |[39m     [32m"typescript"[39m[33m:[39m [32m"^4.5.4"[39m[0m
+3 error [0m [90m 15 |[39m   }[0m
+3 error [0m[31m[1m>[22m[39m[90m 16 |[39m   [90m// "scripts": {[39m[0m
+3 error [0m [90m    |[39m   [31m[1m^[22m[39m[0m
+3 error [0m [90m 17 |[39m   [90m//   "build": "parcel src/index.html -p 3000"[39m[0m
+3 error [0m [90m 18 |[39m   [90m// }[39m[0m
+3 error [0m [90m 19 |[39m }[0m
+3 error
+3 error     at parseJson (D:\repositories\udemy\ds.e\node_modules\parse-json\index.js:29:21)
+3 error     at parse (D:\repositories\udemy\ds.e\node_modules\load-json-file\index.js:15:9)
+3 error     at module.exports (D:\repositories\udemy\ds.e\node_modules\load-json-file\index.js:18:47)
