@@ -9,6 +9,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
+    "@storybook/addon-a11y": "^6.4.9",
     "@storybook/addon-knobs": "^6.4.0",
     "@storybook/addon-storysource": "^6.4.9",
     "@storybook/preset-typescript": "^3.0.0",
