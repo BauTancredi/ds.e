@@ -1,7 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  KeyboardEventHandler,
+  createRef,
+} from "react";
 
 import Text from "../../atoms/Text";
 
+const KEY_CODES = {
+  ENTER: "Enter",
+  SPACE: "Space",
+  DOWN_ARROW: "ArrowDown",
+};
 interface SelectOption {
   label: string;
   value: string;
@@ -28,7 +39,11 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<null | number>(null);
+  const [highlightedIndex, setHighlightedIndex] = useState<null | number>(null);
   const labelRef = useRef<HTMLButtonElement>(null);
+  const [optionRefs, setOptionRefs] = useState<
+    React.RefObject<HTMLLIElement>[]
+  >([]);
   const [overlayTop, setOverlayTop] = useState<number>(0);
 
   const onOptionSelected = (option: SelectOption, optionIndex: number) => {
@@ -49,6 +64,37 @@ const Select: React.FC<SelectProps> = ({
   let selectedOption = null;
 
   if (selectedIndex !== null) selectedOption = options[selectedIndex];
+
+  const highlightItem = (optionIndex: number | null) => {
+    setHighlightedIndex(optionIndex);
+  };
+
+  const onButtonKeyDown: KeyboardEventHandler = (e) => {
+    e.preventDefault();
+
+    if (
+      [KEY_CODES.ENTER, KEY_CODES.SPACE, KEY_CODES.DOWN_ARROW].includes(e.code)
+    ) {
+      setIsOpen(true);
+
+      highlightItem(0);
+    }
+  };
+
+  useEffect(() => {
+    setOptionRefs(options.map((_) => createRef<HTMLLIElement>()));
+  }, [options.length]);
+
+  useEffect(() => {
+    if (highlightedIndex !== null && isOpen) {
+      const ref = optionRefs[highlightedIndex];
+
+      if (ref && ref.current) {
+        ref.current.focus();
+      }
+    }
+  }, [isOpen]);
+
   return (
     <div className="dse-select">
       <button
@@ -58,6 +104,7 @@ const Select: React.FC<SelectProps> = ({
         ref={labelRef}
         className="dse-select__label"
         onClick={() => onLabelClicked()}
+        onKeyDown={onButtonKeyDown}
       >
         <Text>{selectedIndex === null ? label : selectedOption?.label}</Text>
         <svg
@@ -88,14 +135,23 @@ const Select: React.FC<SelectProps> = ({
         >
           {options.map((option, optionIndex) => {
             const isSelected = selectedIndex === optionIndex;
+            const isHighlighted = highlightedIndex === optionIndex;
+
+            const ref = optionRefs[optionIndex];
 
             const renderOptionProps = {
+              ref,
               option,
               isSelected,
               getOptionRecommendedProps: (overrideProps = {}) => {
                 return {
-                  className: `dse-select__option ${
-                    isSelected ? "dse-select__option--selected" : ""
+                  ref,
+                  tabIndex: isHighlighted ? -1 : 0,
+                  onMouseEnter: () => highlightItem(optionIndex),
+                  onMouseLeave: () => highlightItem(null),
+                  className: `dse-select__option 
+                  ${isSelected ? "dse-select__option--selected" : ""}
+                  ${isHighlighted ? "dse-select__option--highlighted" : ""}
                   }`,
                   key: option.value,
                   onClick: () => onOptionSelected(option, optionIndex),
@@ -109,13 +165,7 @@ const Select: React.FC<SelectProps> = ({
             }
 
             return (
-              <li
-                onClick={() => onOptionSelected(option, optionIndex)}
-                key={option.value}
-                className={`dse-select__option ${
-                  isSelected ? "dse-select__option--selected" : ""
-                }`}
-              >
+              <li {...renderOptionProps.getOptionRecommendedProps()}>
                 <Text>{option.label}</Text>
                 {isSelected ? (
                   <svg
