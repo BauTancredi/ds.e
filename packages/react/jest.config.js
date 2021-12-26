@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 module.exports = {
   roots: ["<rootDir>/src"],
   testRegex: "(/.*\\.test)\\.(ts|tsx)$",
