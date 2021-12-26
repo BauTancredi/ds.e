@@ -19,6 +19,7 @@
     "@types/jest": "^27.0.3",
     "@types/react": "^17.0.38",
     "babel-loader": "^8.2.3",
+    "chromatic": "^6.3.3",
     "jest": "^27.4.5",
     "rollup": "^2.61.1",
     "rollup-plugin-typescript2": "^0.31.1",
@@ -30,6 +31,7 @@
     "test": "jest --verbose",
     "test:watch": "yarn test -w",
     "start-storybook": "start-storybook",
-    "build-ststorybook": "build-ststorybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "npx chromatic --project-token=62caef4c54ee"
   }
 }
