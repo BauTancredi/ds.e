@@ -20,7 +20,22 @@ const options = [
 ];
 
 export default {
-  title: "Select",
+  title: "Molecules/Select",
 };
 
 export const Common = () => <Select options={options} />;
+
+export const RenderOption = () => (
+  <Select
+    options={options}
+    renderOption={({ option, getOptionRecommendedProps, isSelected }) => (
+      <span {...getOptionRecommendedProps({})}>
+        {option.label} {isSelected ? "SELECTED!" : ""}
+      </span>
+    )}
+  />
+);
+
+export const CustomLabel = () => (
+  <Select options={options} label="Custom label here" />
+);
